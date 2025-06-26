@@ -1,24 +1,35 @@
-# Image Encryption Tool
+# 🖼️ Pixel Manipulator
 
-A simple GUI-based tool built with Python to "encrypt" and "decrypt" images using a reversible image transformation.
+A simple GUI-based tool built with Python that allows users to apply basic image effects and a reversible "encryption" using pixel transformations. Great for learning OpenCV and GUI development with Tkinter.
 
-## Features
+## ✨ Features
 
-- Load any image from your system.
-- Encrypt the image by flipping it 180°.
-- Decrypt the image (by flipping it again).
-- Save the output image to your system.
-- Simple graphical interface using Tkinter.
+- 📂 Load any image from your system
+- 🌑 Convert image to **Grayscale**
+- 💨 Apply **Gaussian Blur** effect
+- 🔄 **Encrypt** image by flipping pixels (visually distorts image)
+- ⏪ **Decrypt** by flipping again (restores original)
+- 💾 Save the processed image using a file dialog
+- 🧠 Educational GUI made with Tkinter
 
-> ⚠️ Note: This is not real cryptographic encryption. It is a visual transformation used for learning purposes.
+> ⚠️ **Note:** The "encryption" here is purely visual and reversible — not secure or cryptographic. It's designed for learning purposes only.
 
-## How It Works
+---
 
-The encryption is done by flipping the image both vertically and horizontally. Applying the operation twice restores the original image.
+## 🧠 How It Works
 
-## Technologies Used
+- **Grayscale:** Converts the image to black and white using OpenCV.
+- **Blur:** Applies a softening Gaussian blur filter.
+- **Encrypt (Flip):** Flips image both vertically and horizontally.
+- **Decrypt:** Applies the same flip operation again to reverse it.
 
-- Python
-- OpenCV (`cv2`)
+---
+
+## 🛠️ Technologies Used
+
+- Python 3
+- [OpenCV (cv2)](https://opencv.org/)
 - NumPy
-- Tkinter (built-in)
+- Tkinter (built-in Python GUI library)
+
+---
