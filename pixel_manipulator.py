@@ -1,48 +1,60 @@
 import cv2
-import numpy as np 
-from tkinter import filedialog, Tk, Button, Label
-
-def encrypt_image(image):
-    height, width, _ = image.shape
-    encrypted_image = np.copy(image)
-    for i in range(height):
-        for j in range(width):
-            encrypted_image[i, j] = image[height - 1 - i, width - 1 - j]
-    return encrypted_image
-
-def decrypt_image(image):
-    return encrypt_image(image)
+import numpy as np
+from tkinter import filedialog, Tk, Button, Label, messagebox
 
 def load_image():
-    file_path  = filedialog.askopenfilename()
+    file_path = filedialog.askopenfilename()
+    if not file_path:
+        return None
     image = cv2.imread(file_path)
-    return image  
+    return image
 
 def save_image(image):
+    if image is None:
+        messagebox.showerror("Error", "No image to save.")
+        return
     file_path = filedialog.asksaveasfilename(defaultextension=".png")
-    cv2.imwrite(file_path, image) 
+    if file_path:
+        cv2.imwrite(file_path, image)
+        messagebox.showinfo("Saved", f"Image saved to {file_path}")
+
+def apply_grayscale():
+    image = load_image()
+    if image is not None:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        save_image(gray)
+
+def apply_blur():
+    image = load_image()
+    if image is not None:
+        blurred = cv2.GaussianBlur(image, (15, 15), 0)
+        save_image(blurred)
+
+def encrypt_image(image):
+    height, width = image.shape[:2]
+    return image[::-1, ::-1]
 
 def encrypt():
     image = load_image()
-    encrypted = encrypt_image(image)
-    save_image(encrypted)
+    if image is not None:
+        encrypted = encrypt_image(image)
+        save_image(encrypted)
 
 def decrypt():
     image = load_image()
-    decrypted = decrypt_image(image)
-    save_image(decrypted)
+    if image is not None:
+        decrypted = encrypt_image(image)
+        save_image(decrypted)
 
-
+# GUI
 root = Tk()
-root.title("Image Encryption Tool")
+root.title("Pixel Manipulator")
 
-encrypt_button = Button(root, text="Encrypt image", command=encrypt)
-encrypt_button.pack()
+Label(root, text="Choose an operation:").pack(pady=5)
 
-decrypt_button = Button(root, text="Decrypt Image", command=decrypt)
-decrypt_button.pack()
-
-label = Label(root, text="Select and image to encrypt or decrypt.")
-label.pack()
+Button(root, text="Grayscale", command=apply_grayscale).pack(pady=2)
+Button(root, text="Blur", command=apply_blur).pack(pady=2)
+Button(root, text="Encrypt (Flip)", command=encrypt).pack(pady=2)
+Button(root, text="Decrypt", command=decrypt).pack(pady=2)
 
 root.mainloop()
